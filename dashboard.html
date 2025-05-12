@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>C Thread Pool Dashboard</title>
+    <style>
+        body { font-family: Arial; }
+        table { border-collapse: collapse; margin: 40px auto; }
+        th, td { border: 1px solid #ccc; padding: 8px 16px; }
+        th { background: #f0f0f0; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align:center;">Thread Pool Dashboard (C Backend)</h1>
+    <table>
+        <tr><th>CPU (%)</th><th>Free Mem (%)</th><th>Queue Size</th><th>Threads</th><th>Throughput</th></tr>
+        <tr>
+            <td id="cpu"></td>
+            <td id="mem"></td>
+            <td id="queue"></td>
+            <td id="threads"></td>
+            <td id="throughput"></td>
+        </tr>
+    </table>
+    <script>
+        async function updateMetrics() {
+            const res = await fetch('/metrics');
+            const data = await res.json();
+            document.getElementById('cpu').textContent = data.cpu;
+            document.getElementById('mem').textContent = data.mem;
+            document.getElementById('queue').textContent = data.queue;
+            document.getElementById('threads').textContent = data.threads;
+            document.getElementById('throughput').textContent = data.throughput;
+        }
+        setInterval(updateMetrics, 1000);
+        updateMetrics();
+    </script>
+</body>
+</html>
